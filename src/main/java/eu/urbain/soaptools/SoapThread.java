@@ -120,7 +120,7 @@ public class SoapThread implements Runnable {
 			InputStream is = classLoader.getResourceAsStream(serviceRequestXmlPath);
 			//logger.info(is);
 			result = IOUtils.toString(is, "UTF-8");
-			logger.info(result);
+			//logger.info(result);
 		} catch (IOException e) {
 			logger.error("Can't read file " + serviceRequestXmlPath, e);
 		}
