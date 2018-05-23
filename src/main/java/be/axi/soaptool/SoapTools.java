@@ -12,9 +12,9 @@ import org.apache.log4j.Logger;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Application {
+public class SoapTools {
 
-	final static Logger logger = Logger.getLogger(Application.class);
+	final static Logger logger = Logger.getLogger(SoapTools.class);
 
 	public static void main(String[] args) {
 
