@@ -15,9 +15,9 @@ public class SoapTools {
 	final static Logger logger = Logger.getLogger(SoapTools.class);
 
 	public static void main(String[] args) {
-
-		logger.info("Start SoapTool");
+		
 		long start = System.currentTimeMillis();
+		logger.info("Start SoapTool");
 
 		Properties prop = new Properties();
 		InputStream input = null;
@@ -26,7 +26,6 @@ public class SoapTools {
 
 		try {
 			SoapTools obj = new SoapTools();
-
 			input = obj.readFile("config.properties");
 
 			// load a properties file

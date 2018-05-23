@@ -75,9 +75,7 @@ public class SoapThread implements Runnable {
 
 				OutputStream out = connection.getOutputStream();
 				Writer wout = new OutputStreamWriter(out);
-
 				wout.write(requestString);
-
 				wout.flush();
 				wout.close();
 
