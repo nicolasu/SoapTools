@@ -1,0 +1,11 @@
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:mes="http://ejustice.fgov.be/mach/service/crossborder/v2_0_0/messages" xmlns:dom="http://ejustice.fgov.be/mach/service/crossborder/v2_0_0/domain">
+   <soap:Header/>
+   <soap:Body>
+      <mes:GetParketZonesRequest>
+         <mes:requester>
+            <dom:language>F</dom:language>
+            <dom:nationalNumber>83111419937</dom:nationalNumber>
+         </mes:requester>
+      </mes:GetParketZonesRequest>
+   </soap:Body>
+</soap:Envelope>

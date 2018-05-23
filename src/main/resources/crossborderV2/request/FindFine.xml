@@ -1,0 +1,19 @@
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:mes="http://ejustice.fgov.be/mach/service/crossborder/v2_0_0/messages" xmlns:dom="http://ejustice.fgov.be/mach/service/crossborder/v2_0_0/domain">
+   <soap:Header/>
+   <soap:Body>
+      <mes:FindFineRequest>
+         <mes:requester>
+            <dom:language>N</dom:language>
+            <dom:nationalNumber>123</dom:nationalNumber>
+         </mes:requester>
+         <mes:criteria>
+            <dom:infractionDate>2016-03-31T14:00:00</dom:infractionDate>
+            <dom:dearrce>GE</dom:dearrce>
+            <dom:deprece>94</dom:deprece>
+            <dom:depolce>C2</dom:depolce>
+            <dom:depvsno>486281</dom:depvsno>
+            <dom:depvean>2016</dom:depvean>
+         </mes:criteria>
+      </mes:FindFineRequest>
+   </soap:Body>
+</soap:Envelope>
