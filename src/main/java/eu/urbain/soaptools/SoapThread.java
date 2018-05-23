@@ -1,4 +1,4 @@
-package be.axi.soaptool;
+package eu.urbain.soaptools;
 
 import java.io.IOException;
 import java.io.InputStream;

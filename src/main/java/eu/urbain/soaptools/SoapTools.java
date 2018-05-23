@@ -1,5 +1,5 @@
 
-package be.axi.soaptool;
+package eu.urbain.soaptools;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
