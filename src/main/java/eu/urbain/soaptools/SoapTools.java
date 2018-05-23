@@ -1,7 +1,5 @@
-
 package eu.urbain.soaptools;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.Map;
@@ -27,8 +25,9 @@ public class SoapTools {
 		String tmp;
 
 		try {
+			SoapTools obj = new SoapTools();
 
-			input = new FileInputStream("src/main/resources/config.properties");
+			input = obj.readFile("config.properties");
 
 			// load a properties file
 			prop.load(input);
@@ -54,58 +53,61 @@ public class SoapTools {
 			int serviceWait;
 			int serviceRepetition;
 			int serviceThreads;
+			int index = 0;
 
 			while (tmp != null) {
 				logger.debug("");
 
 				serviceName = prop.getProperty("service." + serviceIndex + ".name");
-				logger.debug(serviceName);
+				logger.debug("Name service " + index  + " : " + serviceName);
 
 				serviceUrl = prop.getProperty("service." + serviceIndex + ".url");
-				logger.debug(serviceUrl);
+				logger.debug("URL : " + serviceUrl);
 
 				serviceRequestXmlPath = prop.getProperty("service." + serviceIndex + ".request");
-				logger.debug(serviceRequestXmlPath);
-
-				tmp = prop.getProperty("service." + serviceIndex + ".wait");
-				serviceWait = Integer.parseInt(tmp);
-				logger.debug(serviceWait);
+				logger.debug("Request : " + serviceRequestXmlPath);
 
 				tmp = prop.getProperty("service." + serviceIndex + ".repetition");
 				serviceRepetition = Integer.parseInt(tmp);
-				logger.debug(serviceRepetition);
+				logger.debug("Number of repetition : " + serviceRepetition);
+				
+				tmp = prop.getProperty("service." + serviceIndex + ".wait");
+				serviceWait = Integer.parseInt(tmp);
+				logger.debug("Delay between repetition : " + serviceWait);
 
 				tmp = prop.getProperty("service." + serviceIndex + ".threads");
 				serviceThreads = Integer.parseInt(tmp);
-				logger.debug(serviceThreads);
+				logger.debug("Number of thread : " + serviceThreads);
 
 				String threadName;
 
 				for (int i = 0; i < serviceThreads; i++) {
 					threadName = serviceName + "[" + i + "]";
 					SoapThread t = new SoapThread(threadName, serviceName, serviceUrl, serviceRequestXmlPath, serviceWait, serviceRepetition);
-					// t.run();
 
 					Thread t1 = new Thread(t);
 					t1.start();
 
-					logger.debug("Before sleep for rampup " + rampup + " main app " + new Date());
+					logger.debug("Will sleep " + rampup + "ms before start next thread " + new Date());
 					Thread.sleep(rampup);
-					logger.debug("After sleep main app " + new Date());
+					logger.debug("Sleep over, can start a new thread " + new Date());
 				}
 
 				serviceIndex++;
 				tmp = prop.getProperty("service." + serviceIndex + ".name");
-
 			}
-
 		} catch (Exception ex) {
 			logger.error("General Exception", ex);
-
 		}
-
 		long elapsedTime = System.currentTimeMillis() - start;
 		logger.info("End SoapTool : " + elapsedTime + "ms");
+	}
+
+	private InputStream readFile(String path) {
+		InputStream returnInput;
+		ClassLoader classLoader = getClass().getClassLoader();
+		returnInput = classLoader.getResourceAsStream(path);
+		return returnInput;
 	}
 
 }
