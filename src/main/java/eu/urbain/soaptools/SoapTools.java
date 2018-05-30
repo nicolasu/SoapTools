@@ -1,5 +1,6 @@
 package eu.urbain.soaptools;
 
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.Map;
@@ -7,15 +8,15 @@ import java.util.Properties;
 import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
 public class SoapTools {
 
 	final static Logger logger = Logger.getLogger(SoapTools.class);
 
+	final static String CONFIG_FILENAME = "config.properties";
+
 	public static void main(String[] args) {
-		
+
 		long start = System.currentTimeMillis();
 		logger.info("Start SoapTool");
 
@@ -25,8 +26,18 @@ public class SoapTools {
 		String tmp;
 
 		try {
-			SoapTools obj = new SoapTools();
-			input = obj.readFile("config.properties");
+
+			// first, try to read the config file in the same directory as the jar file
+			try {
+				String path = "./" + CONFIG_FILENAME;
+				input = new FileInputStream(path);
+			} catch (Exception e) {
+				// if can't read config file in the jar directory, will use the config file
+				// inside the jar
+				logger.info(CONFIG_FILENAME + " not found in the current folder, will use the config file in the jar");
+				SoapTools obj = new SoapTools();
+				input = obj.readFile(CONFIG_FILENAME);
+			}
 
 			// load a properties file
 			prop.load(input);
@@ -58,7 +69,7 @@ public class SoapTools {
 				logger.debug("");
 
 				serviceName = prop.getProperty("service." + serviceIndex + ".name");
-				logger.debug("Name service " + index  + " : " + serviceName);
+				logger.debug("Name service " + index + " : " + serviceName);
 
 				serviceUrl = prop.getProperty("service." + serviceIndex + ".url");
 				logger.debug("URL : " + serviceUrl);
@@ -69,7 +80,7 @@ public class SoapTools {
 				tmp = prop.getProperty("service." + serviceIndex + ".repetition");
 				serviceRepetition = Integer.parseInt(tmp);
 				logger.debug("Number of repetition : " + serviceRepetition);
-				
+
 				tmp = prop.getProperty("service." + serviceIndex + ".wait");
 				serviceWait = Integer.parseInt(tmp);
 				logger.debug("Delay between repetition : " + serviceWait);
@@ -82,14 +93,14 @@ public class SoapTools {
 
 				for (int i = 0; i < serviceThreads; i++) {
 					threadName = serviceName + "[" + i + "]";
-					SoapThread t = new SoapThread(threadName, serviceName, serviceUrl, serviceRequestXmlPath, serviceWait, serviceRepetition);
+					SoapThread t = new SoapThread(i, threadName, serviceName, serviceUrl, serviceRequestXmlPath, serviceWait, serviceRepetition);
 
 					Thread t1 = new Thread(t);
 					t1.start();
 
-					logger.debug("Will sleep " + rampup + "ms before start next thread " + new Date());
+					logger.debug("Rampup sleep of " + rampup + "ms before start next service " + new Date());
 					Thread.sleep(rampup);
-					logger.debug("Sleep over, can start a new thread " + new Date());
+					// logger.debug("Sleep over, can start a new thread " + new Date());
 				}
 
 				serviceIndex++;

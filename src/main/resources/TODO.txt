@@ -1,0 +1,13 @@
+remove all dependency
+
+try catch all errors:
+
+when server down
+wrong url/path
+response return soap fault
+http code not 200 response
+
+
+
+for each thread in a csv file
+no thread, type (type), start time, end time, elepased, response, code http (200, soap fault 500 etc)
